@@ -1,9 +1,19 @@
-import Dexie from 'dexie'
+import Dexie, { type Table } from 'dexie'
 
-export const db = new Dexie('StopScoutDB')
+import type { User } from '../types/auth'
 
-db.version(1).stores({
-  users: '++id, username',
-  favoriteStops: '++id, userId, stopId',
-  cachedStops: '++id, stopId',
-})
+class StopScoutDB extends Dexie {
+  users!: Table<User>
+
+  constructor() {
+    super('StopScoutDB')
+
+    this.version(1).stores({
+      users: '++id, username',
+      favoriteStops: '++id, userId, stopId',
+      cachedStops: '++id, stopId',
+    })
+  }
+}
+
+export const db = new StopScoutDB()

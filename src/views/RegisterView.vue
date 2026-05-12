@@ -1,10 +1,10 @@
 <template>
   <div class="max-w-md mx-auto bg-white p-6 rounded shadow">
     <h1 class="text-3xl font-bold mb-6">
-      Login
+      Register
     </h1>
 
-    <form @submit.prevent="handleLogin">
+    <form @submit.prevent="handleRegister">
       <input
         v-model="username"
         type="text"
@@ -22,7 +22,7 @@
       <button
         class="bg-slate-900 text-white px-4 py-3 rounded w-full"
       >
-        Login
+        Register
       </button>
     </form>
   </div>
@@ -35,42 +35,28 @@ import bcrypt from 'bcryptjs'
 
 import { db } from '../db/indexedDb'
 
-import { useRouter } from 'vue-router'
-
-import { useAuthStore } from '../stores/authStore'
-
 const username = ref('')
 const password = ref('')
 
-const router = useRouter()
-
-const authStore = useAuthStore()
-
-async function handleLogin() {
-  const user = await db.users
+async function handleRegister() {
+  const existingUser = await db.users
     .where('username')
     .equals(username.value)
     .first()
 
-  if (!user) {
-    alert('User not found')
+  if (existingUser) {
+    alert('User already exists')
 
     return
   }
 
-  const validPassword = await bcrypt.compare(
-    password.value,
-    user.passwordHash
-  )
+  const passwordHash = await bcrypt.hash(password.value, 10)
 
-  if (!validPassword) {
-    alert('Invalid password')
+  await db.users.add({
+    username: username.value,
+    passwordHash
+  })
 
-    return
-  }
-
-  authStore.login(user.username)
-
-  router.push('/dashboard')
+  alert('User created')
 }
 </script>
