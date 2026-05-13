@@ -69,7 +69,7 @@ async function handleLogin() {
     return
   }
 
-  authStore.login(user.username)
+  authStore.login(user.id!, user.username)
 
   router.push('/dashboard')
 }

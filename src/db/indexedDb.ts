@@ -5,7 +5,7 @@ import type { Stop } from '../types/stop'
 
 class StopScoutDB extends Dexie {
   users!: Table<User>
-
+  favoriteStops!: Table<any>
   cachedStops!: Table<Stop>
 
   cacheMetadata!: Table<{

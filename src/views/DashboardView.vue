@@ -19,10 +19,22 @@
 
     <div v-else class="space-y-2">
       <div v-for="stop in filteredStops.slice(0, 20)" :key="stop.stopId" class="bg-white p-4 rounded shadow">
-        {{ stop.stopName }}
+        <div class="flex justify-between items-center">
+          <div>
+            {{ stop.stopName }}
+            ({{ stop.stopCode }})
+          </div>
+
+          <button @click="addToFavorites(stop)" class="bg-blue-500 text-white px-3 py-1 rounded">
+            Add
+          </button>
+        </div>
       </div>
     </div>
   </div>
+  <FavoriteBoards :favorites="favoritesStore.favorites" @remove="favoritesStore.removeFavorite" @update-note="
+    favoritesStore.updateFavorite
+  " />
 </template>
 
 <script setup lang="ts">
@@ -31,6 +43,16 @@ import { computed, onMounted, ref } from 'vue'
 import StopSearch from '../components/StopSearch.vue'
 
 import { useStops } from '../composables/useStops'
+
+import { useFavoritesStore } from '../stores/favorites'
+
+import { useAuthStore } from '../stores/authStore'
+
+import FavoriteBoards from '../components/FavoriteBoards.vue'
+
+const favoritesStore = useFavoritesStore()
+
+const authStore = useAuthStore()
 
 const search = ref('')
 
@@ -41,8 +63,14 @@ const {
   fetchStops
 } = useStops()
 
-onMounted(() => {
-  fetchStops()
+onMounted(async () => {
+  await fetchStops()
+
+  if (authStore.userId) {
+    await favoritesStore.loadFavorites(
+      authStore.userId
+    )
+  }
 })
 
 const filteredStops = computed(() => {
@@ -53,4 +81,14 @@ const filteredStops = computed(() => {
       .includes(search.value.trim().toLowerCase())
   )
 })
+
+async function addToFavorites(stop: any) {
+  await favoritesStore.addFavorite(
+    authStore.userId!,
+    stop.stopId,
+    stop.stopName,
+    stop.stopCode,
+    ''
+  )
+}
 </script>
