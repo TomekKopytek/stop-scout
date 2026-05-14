@@ -32,8 +32,8 @@
       </div>
     </div>
   </div>
-  <FavoriteBoards :favorites="favoritesStore.favorites" @remove="favoritesStore.removeFavorite" @update-note="
-    favoritesStore.updateFavorite
+  <FavoriteBoards :favorites="favoritesStore.favorites" @remove="handleRemoveFavorite" @update-note="
+    handleUpdateNote
   " />
 </template>
 
@@ -50,11 +50,15 @@ import { useAuthStore } from '../stores/authStore'
 
 import FavoriteBoards from '../components/FavoriteBoards.vue'
 
+import { useNotify } from '../composables/useNotify'
+
 const favoritesStore = useFavoritesStore()
 
 const authStore = useAuthStore()
 
 const search = ref('')
+
+const notify = useNotify()
 
 const {
   stops,
@@ -65,6 +69,13 @@ const {
 
 onMounted(async () => {
   await fetchStops()
+  console.log(
+    JSON.stringify(
+      stops.value,
+      null,
+      2
+    )
+  )
 
   if (authStore.userId) {
     await favoritesStore.loadFavorites(
@@ -74,11 +85,13 @@ onMounted(async () => {
 })
 
 const filteredStops = computed(() => {
-  return stops.value.filter((stop) =>
-    (stop.stopName ?? '')
-      .trim()
-      .toLowerCase()
-      .includes(search.value.trim().toLowerCase())
+  return stops.value.filter(
+    (stop) =>
+      (stop.stopName || '')
+        .toLowerCase()
+        .includes(
+          search.value.toLowerCase()
+        )
   )
 })
 
@@ -90,5 +103,20 @@ async function addToFavorites(stop: any) {
     stop.stopCode,
     ''
   )
+  notify('Stop added to favorites!')
+}
+async function handleRemoveFavorite(
+  stopId: number
+) {
+  await favoritesStore.removeFavorite(
+    stopId
+  )
+
+  notify?.('Favorite removed')
+}
+
+async function handleUpdateNote(stopId: number, note: string) {
+  await favoritesStore.updateFavorite(stopId, note)
+  notify?.('Note updated')
 }
 </script>

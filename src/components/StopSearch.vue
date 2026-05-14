@@ -1,5 +1,6 @@
 <template>
   <input
+    v-focus
     :value="modelValue"
     @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     type="text"

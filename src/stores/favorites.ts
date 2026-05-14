@@ -21,11 +21,17 @@ export const useFavoritesStore = defineStore("favorites", () => {
     stopCode: string,
     note: "",
   ) {
+    const exists = favorites.value.some(
+      (favorite) => favorite.stopId === stopId,
+    );
+
+    if (exists) return;
     const newFavorite = {
       userId,
       stopId,
       stopName,
       stopCode,
+      note,
     };
 
     favorites.value.push(newFavorite);

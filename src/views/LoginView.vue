@@ -38,7 +38,8 @@ import { db } from '../db/indexedDb'
 import { useRouter } from 'vue-router'
 
 import { useAuthStore } from '../stores/authStore'
-
+import { useNotify } from '../composables/useNotify'
+const notify = useNotify()
 const username = ref('')
 const password = ref('')
 
@@ -69,7 +70,8 @@ async function handleLogin() {
     return
   }
 
-  authStore.login(user.id!, user.username)
+  authStore.login(user.id!, user.username) 
+  notify?.(`Welcome, ${user.username}`)
 
   router.push('/dashboard')
 }

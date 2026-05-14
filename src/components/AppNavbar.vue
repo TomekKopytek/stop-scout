@@ -31,15 +31,16 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-
+import { useNotify } from '../composables/useNotify'
 import { useAuthStore } from '../stores/authStore'
-
+const notify = useNotify()
 const router = useRouter()
 
 const authStore = useAuthStore()
 
 function logout() {
     authStore.logout()
+    notify?.('Logged out.')
 
     router.push('/login')
 }

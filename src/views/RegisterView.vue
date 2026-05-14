@@ -29,12 +29,15 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import { ref } from 'vue'
+import { useNotify } from '../composables/useNotify'
 
 import bcrypt from 'bcryptjs'
 
 import { db } from '../db/indexedDb'
-
+const notify = useNotify()
+const router = useRouter()
 const username = ref('')
 const password = ref('')
 
@@ -57,6 +60,9 @@ async function handleRegister() {
     passwordHash
   })
 
-  alert('User created')
+  notify?.('Account created successfully')
+  router.push('/login')
 }
+
+
 </script>

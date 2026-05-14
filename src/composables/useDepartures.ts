@@ -1,6 +1,7 @@
 import { ref } from "vue";
 
 import type { Departure } from "../types/departure";
+import { useApiFetch } from "./useApiFetch";
 
 export function useDepartures() {
   const departures = ref<Departure[]>([]);
@@ -15,7 +16,7 @@ export function useDepartures() {
     error.value = "";
 
     try {
-      const response = await fetch(
+      const response = await useApiFetch(
         `https://ckan2.multimediagdansk.pl/departures?stopId=${stopId}`,
       );
 
