@@ -29,14 +29,14 @@ export function useStops() {
         cacheInfo && now - cacheInfo.timestamp < 24 * 60 * 60 * 1000;
 
       if (isCacheValid) {
-        console.log("Using cached stops");
+        console.log("Użycie zacache'owanych przystanków");
 
         stops.value = await db.cachedStops.toArray();
 
         return;
       }
 
-      console.log("Fetching fresh stops");
+      console.log("Pobieranie przystanków na nowo");
 
       const response = await useApiFetch(STOPS_URL);
 
@@ -61,7 +61,7 @@ export function useStops() {
     } catch (err) {
       console.error("STOPS ERROR:", err);
 
-      error.value = "Failed to load stops";
+      error.value = "Błąd podczas ładowania przystanków";
     } finally {
       loading.value = false;
     }

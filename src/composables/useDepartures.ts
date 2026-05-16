@@ -34,7 +34,7 @@ export function useDepartures() {
     } catch (err) {
       console.error(err);
 
-      error.value = "Failed to load departures";
+      error.value = "błąd podczas pobierania odjazdów";
     } finally {
       loading.value = false;
     }
