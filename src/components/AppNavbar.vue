@@ -7,22 +7,23 @@
 
             <div class="flex gap-4 items-center">
                 <span v-if="authStore.isAuthenticated" class="text-slate-300">
-                    Hello, {{ authStore.user }}!
+                    Witaj, {{ authStore.user }}!
                 </span>
+                
                 <RouterLink v-if="authStore.isAuthenticated" to="/dashboard">
-                    Dashboard
+                    Lista przystanków
                 </RouterLink>
-
+                <RouterLink v-if="authStore.isAuthenticated" to="/favorites">
+                    Polubione przystanki
+                </RouterLink>
                 <RouterLink v-if="!authStore.isAuthenticated" to="/register">
-                    Register
+                    Zarejestruj
                 </RouterLink>
-
                 <RouterLink v-if="!authStore.isAuthenticated" to="/login">
-                    Login
+                    Zaloguj
                 </RouterLink>
-
                 <button v-if="authStore.isAuthenticated" @click="logout" class="cursor-pointer">
-                    Logout
+                    Wyloguj
                 </button>
             </div>
         </div>
@@ -40,7 +41,7 @@ const authStore = useAuthStore()
 
 function logout() {
     authStore.logout()
-    notify?.('Logged out.')
+    notify?.('Wylogowano')
 
     router.push('/login')
 }

@@ -1,28 +1,28 @@
 <template>
   <div class="max-w-md mx-auto bg-white p-6 rounded shadow">
     <h1 class="text-3xl font-bold mb-6">
-      Login
+      Logowanie
     </h1>
 
     <form @submit.prevent="handleLogin">
       <input
         v-model="username"
         type="text"
-        placeholder="Username"
+        placeholder="Nazwa konta"
         class="w-full border p-3 rounded mb-4"
       />
 
       <input
         v-model="password"
         type="password"
-        placeholder="Password"
+        placeholder="Hasło"
         class="w-full border p-3 rounded mb-4"
       />
 
       <button
         class="bg-slate-900 text-white px-4 py-3 rounded w-full"
       >
-        Login
+        Zaloguj
       </button>
     </form>
   </div>
@@ -54,7 +54,7 @@ async function handleLogin() {
     .first()
 
   if (!user) {
-    alert('User not found')
+    alert('Podany użytkownik nie istnieje.')
 
     return
   }
@@ -65,13 +65,13 @@ async function handleLogin() {
   )
 
   if (!validPassword) {
-    alert('Invalid password')
+    alert('Niepoprawne hasło.')
 
     return
   }
 
   authStore.login(user.id!, user.username) 
-  notify?.(`Welcome, ${user.username}`)
+  notify?.(`Witaj, ${user.username}`)
 
   router.push('/dashboard')
 }

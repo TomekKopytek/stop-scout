@@ -1,28 +1,28 @@
 <template>
   <div class="max-w-md mx-auto bg-white p-6 rounded shadow">
     <h1 class="text-3xl font-bold mb-6">
-      Register
+      Rejestracja
     </h1>
 
     <form @submit.prevent="handleRegister">
       <input
         v-model="username"
         type="text"
-        placeholder="Username"
+        placeholder="Nazwa konta"
         class="w-full border p-3 rounded mb-4"
       />
 
       <input
         v-model="password"
         type="password"
-        placeholder="Password"
+        placeholder="Hasło"
         class="w-full border p-3 rounded mb-4"
       />
 
       <button
         class="bg-slate-900 text-white px-4 py-3 rounded w-full"
       >
-        Register
+        Zarejestruj
       </button>
     </form>
   </div>
@@ -48,7 +48,7 @@ async function handleRegister() {
     .first()
 
   if (existingUser) {
-    alert('User already exists')
+    alert('Podany użytkownik już istnieje')
 
     return
   }
@@ -60,7 +60,7 @@ async function handleRegister() {
     passwordHash
   })
 
-  notify?.('Account created successfully')
+  notify?.('Konto zarejestrowane z powodzeniem!')
   router.push('/login')
 }
 

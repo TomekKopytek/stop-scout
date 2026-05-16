@@ -4,7 +4,7 @@
     :value="modelValue"
     @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     type="text"
-    placeholder="Search stop..."
+    placeholder="Wyszukaj przystanek"
     class="w-full p-3 border rounded mb-4"
   />
 </template>

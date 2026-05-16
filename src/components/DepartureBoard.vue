@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="loading">
-      Loading departures...
+      Ładowanie odjazdów...
     </div>
 
     <div v-else-if="error" class="text-red-500">
@@ -19,7 +19,7 @@
         </div>
 
         <div>
-          Departure:
+          Odjazd:
           {{
             new Date(
               departure.estimatedTime
@@ -34,11 +34,11 @@
         </div>
 
         <div>
-          Delay:
+          Opóźnienie:
           {{
             departure.delayInSeconds > 0
               ? `${departure.delayInSeconds}s`
-          : 'On time'
+          : 'Na czas'
           }}
         </div>
       </div>

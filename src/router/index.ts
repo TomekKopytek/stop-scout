@@ -4,6 +4,7 @@ import DashboardView from '../views/DashboardView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import { useAuthStore } from '../stores/authStore'
+import FavoritesView from '../views/FavoritesView.vue'
 
 const routes = [
   {
@@ -23,6 +24,10 @@ const routes = [
   {
   path: '/register',
   component: RegisterView
+  },
+  {
+    path: '/favorites',
+    component: FavoritesView
   }
 ]
 
